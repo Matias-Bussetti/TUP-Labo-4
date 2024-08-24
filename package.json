@@ -1,0 +1,17 @@
+{
+  "name": "proyecto-labo-4",
+  "version": "0.0.0",
+  "description": "Proyecto de Laboratorio 4 de la tecnicatura de Universidad Nacional Tecnologica",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bruno Diego - Bussetti Matias",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.4",
+    "proyecto-labo-4": "file:"
+  }
+}
