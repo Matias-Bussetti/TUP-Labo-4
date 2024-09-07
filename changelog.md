@@ -4,9 +4,10 @@
 
 ### [0.0.0] - 23-8-24
 
-
 - Hola soy juan
 - Comienzo del proyecto en la clase del día de la fecha
 
 Hola Soy Diego
-Hola soy matias
+Hola soy matias!
+Conflicto
+Conflicto
