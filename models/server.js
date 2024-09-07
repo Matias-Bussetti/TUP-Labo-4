@@ -8,6 +8,7 @@ class Server {
     this.rutas();
   }
   aasdasd;
+  asdasdasd;
   middleware() {
     this.app.use(express.static("public"));
   }
