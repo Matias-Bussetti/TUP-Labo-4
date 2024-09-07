@@ -1,10 +1,9 @@
-const { Router} = require('express');
-const { getEmpleados, getEmpleado } = require('../controllers/empleados');
+const { Router } = require("express");
+const EmpleadosController = require("../controllers/empleados");
 
 const rutas = Router();
 
-
-rutas.get('/', getEmpleados);
-rutas.get('/:idEmpleado', getEmpleado);
+rutas.get("/", EmpleadosController.get);
+rutas.get("/:idEmpleado", EmpleadosController.get);
 
 module.exports = rutas;
