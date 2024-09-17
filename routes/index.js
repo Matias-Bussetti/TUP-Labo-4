@@ -8,8 +8,12 @@ const CharactersMarvel = require("./CharactersMarvel");
 const PokemonSearch = require("./PokemonSearch");
 
 router.use("/sample", sample);
+
 router.use("/api/v1/marvel/characters", CharactersMarvel);
+
+//Rutas Diego
 router.use("/api/v1/pokemon/search", PokemonSearch);
+
 router.get("*", (req, res) => {
   res.json({
     status: 404,
