@@ -17,8 +17,15 @@ const PokemonSearchController = {
             // Aca hago la peticion
             const pokemonData = await axios.get(pokemonUrl);
 
-            // Devuelvo la respuesta 
-            response.json(pokemonData.data);
+            //Filtro la informacion que deseo mostrar
+            const filteredData = {
+                id: pokemonData.data.id,
+                name: pokemonData.data.name,
+                types: pokemonData.data.types.map(typeInfo => typeInfo.type.name)
+            };
+
+            // Devuelvo la respuesta filtrada
+            response.json(filteredData);
     } catch(error){
         response.status(500).json({
             message: "Error consumiendo datos de la API de Pokemon",
