@@ -6,7 +6,7 @@ const router = express.Router();
 const PatientsController = require("../controllers/PatientsController");
 
 router.get("/", PatientsController.index);
-router.get("/:zip", PatientsController.show);
-router.get("/where", PatientsController.parameters);
+router.get("/where", PatientsController.where);
+router.get("/:id", PatientsController.show);
 
 module.exports = router;
