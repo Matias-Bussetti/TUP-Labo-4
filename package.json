@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app"
+    "start": "node app",
+    "watch": "node --watch app.js"
   },
   "author": "Sebastian Gañan",
   "license": "ISC",
@@ -14,6 +15,7 @@
     "axios": "^1.7.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "husky": "^9.1.6",
     "standard": "^17.1.0"
   }
 }
