@@ -1,4 +1,4 @@
 .env
 node_modules
-marvel.env
-sample.env
+./marvel.env
+./sample.env
