@@ -1,9 +1,10 @@
+require('dotenv').config({ path: './marvel.env' });
 const { request, response } = require("express");
 const axios = require("axios");
 const crypto = require("crypto");
 
-const MARVEL_PUBLIC_KEY = "faf7178fe18056f32a52894e93813132";  // Tu Public Key
-const MARVEL_PRIVATE_KEY = "43495dae51e6ae3ebbd159072664b6016d9758d7";  // Debes reemplazar esto con tu Private Key
+const MARVEL_PUBLIC_KEY = process.env.MARVEL_PUBLIC_KEY;
+const MARVEL_PRIVATE_KEY = process.env.MARVEL_PRIVATE_KEY;
 const MARVEL_API_URL = "https://gateway.marvel.com:443/v1/public/characters";
 
 const CharactersMarvelController = {
