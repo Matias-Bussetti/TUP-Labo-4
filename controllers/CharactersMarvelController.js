@@ -17,11 +17,25 @@ const CharactersMarvelController = {
         params: {
           ts: ts,
           apikey: MARVEL_PUBLIC_KEY,
-          hash: hash,
-          limit: 40,  // Limit 40 personajes
+          hash: hash
         },
       });
-      response.json(res.data);
+
+      // Filtrar los datos que deseas
+      const filteredData = res.data.data.results.map(character => ({
+        id: character.id,
+        name: character.name,
+        description: character.description,
+        modified: character.modified,
+        thumbnail: `${character.thumbnail.path}.${character.thumbnail.extension}`,
+        series: character.series.items.map(serie => serie.name)
+      }));
+
+      // Enviar la respuesta en el formato deseado
+      response.json({
+        status: res.data.status,
+        data: filteredData
+      });
     } catch (error) {
       response.status(500).json({
         message: "Error consumiendo datos de la API de Marvel",
