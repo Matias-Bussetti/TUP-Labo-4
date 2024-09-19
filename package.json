@@ -7,13 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app"
   },
-  "author": "Sebastian Gañan",
+  "author": "Grupo",
   "license": "ISC",
   "dependencies": {
     "api_express_2024": "file:",
     "axios": "^1.7.5",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "standard": "^17.1.0"
   }
 }
