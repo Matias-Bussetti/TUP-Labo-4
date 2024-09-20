@@ -6,7 +6,7 @@ const router = express.Router();
 const controller = require("./../controllers/LaPiedraFilosofal");
 
 router.get("/", controller.getPersonaje);
-router.get("/personajes", controller.getPersonajes);
+//router.get("/personajes", controller.getPersonajes);
 
 
 module.exports = router;
