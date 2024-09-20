@@ -1,6 +1,16 @@
-require('dotenv').config()
-const Server = require('./models/server')
+//Env
+require("dotenv").config();
+const env = process.env;
 
-const servidor = new Server()
+const express = require("express");
 
-servidor.listen()
+const app = express();
+
+//Routes
+const routes = require("./routes/index.js");
+
+app.use("/", routes);
+
+app.listen(parseInt(env.PORT) || 3000, () => {
+  console.log("Server Open at " + parseInt(env.PORT) || 3000);
+});

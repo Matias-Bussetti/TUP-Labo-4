@@ -24,5 +24,6 @@ const getClientes = (req = request, res = response) => {
 }
 
 module.exports = {
-  getClientes
+  getClientes,
+  
 }
