@@ -1,9 +1,13 @@
-const { Router } = require('express')
-const { getClientes } = require('./../controllers/Clientes')
+const { Router } = require('express');
+const { getClientes, getClientesId } = require('./../controllers/Clientes');
 
-const rutas = Router()
+const rutas = Router();
 
-rutas.get('/', getClientes)
+//http://localhost:3000/api/v1/clientes
+rutas.get('/', getClientes);
 
-module.exports = rutas
+//http://localhost:3000/api/v1/clientes/buscar?id=2
+rutas.get('/buscar', getClientesId);
+
+module.exports = rutas;
 
