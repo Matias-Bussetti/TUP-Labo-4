@@ -1,16 +1,16 @@
-const Patients = require("./../models/Pantients");
+const CustomStatusMessage = require("../models/CustomStatusMessage");
+const ErrorMessage = require("../models/ErrorMessage");
+const Patients = require("./../models/Patients");
+
+const ResponseMessage = require("./../models/ResponseMessage");
 
 const PatientsController = {
   index: async function (request, response) {
     try {
       const patients = await Patients.all();
-      response.json(patients);
+      response.json(ResponseMessage.from(patients));
     } catch (error) {
-      console.log(error);
-      let status = error.code == "ENOTFOUND" ? 404 : 500;
-      response
-        .status(status)
-        .json({ message: error.message, code: error.code, status });
+      response.status(500).json(ErrorMessage.from(error, 500));
     }
   },
   show: async (request, response) => {
@@ -19,16 +19,18 @@ const PatientsController = {
       if (!patient) {
         response
           .status(404)
-          .json({ message: "patient not found", status: 404 });
+          .json(
+            CustomStatusMessage.from(
+              null,
+              404,
+              "Patient With ID:" + request.params.id + " Not Found"
+            )
+          );
         return;
       }
-      response.json(patient);
+      response.json(ResponseMessage.from(patient));
     } catch (error) {
-      console.log(error);
-      let status = error.code == "ENOTFOUND" ? 404 : 500;
-      response
-        .status(status)
-        .json({ message: error.message, code: error.code, status });
+      response.status(500).json(ErrorMessage.from(error, 500));
     }
   },
   where: async (request, response) => {
@@ -38,7 +40,9 @@ const PatientsController = {
       if (request.query.age == undefined && request.query.gender == undefined) {
         response
           .status(400)
-          .json({ message: "Age or Gender param not found", status: 400 });
+          .json(
+            CustomStatusMessage.from(null, 400, "Age or Gender param not found")
+          );
         return;
       }
 
@@ -52,14 +56,14 @@ const PatientsController = {
       };
 
       response.json(
-        patients.filter((p) => filterByAge(p)).filter((p) => filterByGender(p))
+        ResponseMessage.from(
+          patients
+            .filter((p) => filterByAge(p))
+            .filter((p) => filterByGender(p))
+        )
       );
     } catch (error) {
-      console.log(error);
-      let status = error.code == "ENOTFOUND" ? 404 : 500;
-      response
-        .status(status)
-        .json({ message: error.message, code: error.code, status });
+      response.status(500).json(ErrorMessage.from(error, 500));
     }
   },
 };
