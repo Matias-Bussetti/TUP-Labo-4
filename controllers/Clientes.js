@@ -25,7 +25,7 @@ const getClientes = (req = request, res = response) => {
 
 // Función para obtener cliente por ID
 const getClientesId = (req = request, res = response) => {
-  const { id } = req.query; // Obtiene el id de los query params
+  const { id } = req.query;
 
   if (!id) {
     return res.status(400).json({
@@ -34,7 +34,7 @@ const getClientesId = (req = request, res = response) => {
     });
   }
 
-  axios.get(`${URL}/${id}`) // Consulta la URL con el id
+  axios.get(`${URL}/${id}`)
     .then((response) => {
       const { data } = response;
 
@@ -59,7 +59,47 @@ const getClientesId = (req = request, res = response) => {
     });
 };
 
+// Función para obtener clientes por género
+const getClientesByGenero = (req = request, res = response) => {
+  const { genero } = req.query; // Obtener el genero del query param
+
+  if (!genero) {
+    return res.status(400).json({
+      msg: 'Error',
+      error: 'El parámetro genero es obligatorio'
+    });
+  }
+
+  axios.get(URL)
+    .then((response) => {
+      const { data = [] } = response;
+
+      // Filtrar los clientes por género
+      const filteredData = data.filter(cliente => cliente.Genero.toLowerCase() === genero.toLowerCase());
+
+      if (filteredData.length === 0) {
+        return res.status(404).json({
+          msg: 'Error',
+          error: 'No se encontraron clientes con el género especificado'
+        });
+      }
+
+      res.status(200).json({
+        msg: 'Ok',
+        data: filteredData
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(400).json({
+        msg: 'Error',
+        error: error.message
+      });
+    });
+};
+
 module.exports = {
   getClientes,
   getClientesId,
+  getClientesByGenero,
 };
