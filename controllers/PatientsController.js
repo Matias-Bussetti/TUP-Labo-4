@@ -10,7 +10,7 @@ const PatientsController = {
       const patients = await Patients.all();
       response.json(ResponseMessage.from(patients));
     } catch (error) {
-      response.status(500).json(ErrorMessage.from(error, 500));
+      response.status(500).json(ErrorMessage.from(error));
     }
   },
   show: async (request, response) => {
@@ -30,7 +30,7 @@ const PatientsController = {
       }
       response.json(ResponseMessage.from(patient));
     } catch (error) {
-      response.status(500).json(ErrorMessage.from(error, 500));
+      response.status(500).json(ErrorMessage.from(error));
     }
   },
   where: async (request, response) => {
@@ -63,7 +63,7 @@ const PatientsController = {
         )
       );
     } catch (error) {
-      response.status(500).json(ErrorMessage.from(error, 500));
+      response.status(500).json(ErrorMessage.from(error));
     }
   },
 };
