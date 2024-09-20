@@ -1,9 +1,10 @@
+require('dotenv').config({ path: './marvel.env' });
 const { request, response } = require("express");
 const axios = require("axios");
 const crypto = require("crypto");
 
-const MARVEL_PUBLIC_KEY = "faf7178fe18056f32a52894e93813132";  // Tu Public Key
-const MARVEL_PRIVATE_KEY = "43495dae51e6ae3ebbd159072664b6016d9758d7";  // Debes reemplazar esto con tu Private Key
+const MARVEL_PUBLIC_KEY = process.env.MARVEL_PUBLIC_KEY;
+const MARVEL_PRIVATE_KEY = process.env.MARVEL_PRIVATE_KEY;
 const MARVEL_API_URL = "https://gateway.marvel.com:443/v1/public/characters";
 
 const CharactersMarvelController = {
@@ -16,11 +17,25 @@ const CharactersMarvelController = {
         params: {
           ts: ts,
           apikey: MARVEL_PUBLIC_KEY,
-          hash: hash,
-          limit: 40,  // Limit 40 personajes
+          hash: hash
         },
       });
-      response.json(res.data);
+
+      // Filtrar los datos que deseas
+      const filteredData = res.data.data.results.map(character => ({
+        id: character.id,
+        name: character.name,
+        description: character.description,
+        modified: character.modified,
+        thumbnail: `${character.thumbnail.path}.${character.thumbnail.extension}`,
+        series: character.series.items.map(serie => serie.name)
+      }));
+
+      // Enviar la respuesta en el formato deseado
+      response.json({
+        status: res.data.status,
+        data: filteredData
+      });
     } catch (error) {
       response.status(500).json({
         message: "Error consumiendo datos de la API de Marvel",
