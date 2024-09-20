@@ -8,8 +8,12 @@ const CharactersMarvel = require("./CharactersMarvel");
 const PokemonSearch = require("./PokemonSearch");
 const LaPiedraFilosofal = require("./LaPiedraFilosofal");
 const PatientsRoutes = require("./PatientsRoutes");
+const Clientes = require("../routes/Clientes")
 
 router.use("/sample", sample);
+
+router.use("/api/v1/clientes",Clientes);
+
 
 router.use("/api/v1/marvel/characters", CharactersMarvel);
 
