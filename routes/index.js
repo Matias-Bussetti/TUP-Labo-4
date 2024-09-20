@@ -5,12 +5,13 @@ const router = express.Router();
 //Rutas
 const sample = require("./sample");
 const CharactersMarvel = require("./CharactersMarvel");
+const LaPiedraFilosofal = require("./LaPiedraFilosofal");
 const PatientsRoutes = require("./PatientsRoutes");
 
 router.use("/sample", sample);
 
 router.use("/api/v1/marvel/characters", CharactersMarvel);
-
+router.use("/api/v1/personajes", LaPiedraFilosofal);
 router.use("/api/v1/patients", PatientsRoutes);
 
 router.get("*", (req, res) => {
