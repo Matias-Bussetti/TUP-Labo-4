@@ -16,7 +16,7 @@ router.use("/sample", sample);
 //Rutas Eric
 router.use("/api/v1/clientes",Clientes);
 //
-router.use("/api/v1/marvel/characters", CharactersMarvel);
+router.use("/api/v1/marvel", CharactersMarvel);
 //Rutas Diego
 router.use("/api/v1/pokemon/search", PokemonSearch);
 //Rutas Eugenia
