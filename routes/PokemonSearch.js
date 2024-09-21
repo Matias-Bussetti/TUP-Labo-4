@@ -6,6 +6,8 @@ const router = express.Router();
 const PokemonSearch = require("./../controllers/PokemonSearchController");
 
 // Aca agarro la id pasada por parametro
-router.get("/:id", PokemonSearch.getPokemonSearch);
+router.get("/:id", PokemonSearch.getPokemonSearchID);
+
+router.get("/", PokemonSearch.getPokemonSearchAll);
 
 module.exports = router;

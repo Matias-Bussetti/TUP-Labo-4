@@ -14,6 +14,8 @@ router.use("/api/v1/marvel/characters", CharactersMarvel);
 
 //Rutas Diego
 router.use("/api/v1/pokemon/search", PokemonSearch);
+router.use("/api/v1/pokemon/search", PokemonSearch);
+
 router.use("/api/v1/patients", PatientsRoutes);
 
 router.get("*", (req, res) => {
