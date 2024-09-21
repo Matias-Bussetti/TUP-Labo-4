@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app",
-    "watch": "node --watch app.js"
+    "watch": "node --watch app.js",
+    "lint": "npm run lint"
   },
   "author": "Sebastian Gañan",
   "license": "ISC",
