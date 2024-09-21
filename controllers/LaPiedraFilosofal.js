@@ -2,7 +2,7 @@ const axios = require('axios')
 const { request, response } = require('express')
 
 
-const { request, response } = require('express');
+
 const HarryPotterCharacters = require('../models/HarryPotterCharacters'); 
 
 const getPersonajes = async (req = request, res = response) => {
