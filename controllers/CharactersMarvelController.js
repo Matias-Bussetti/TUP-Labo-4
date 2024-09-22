@@ -9,7 +9,7 @@ const MARVEL_API_URL = "https://gateway.marvel.com:443/v1/public/characters";
 
 const CharactersMarvelController = {
   // Obtener todos los personajes
-  getMarvelCharacters: async (request, response) => {
+  getCharacters: async (request, response) => {
     try {
       const ts = new Date().getTime(); // Timestamp actual
       const hash = crypto.createHash('md5').update(ts + MARVEL_PRIVATE_KEY + MARVEL_PUBLIC_KEY).digest('hex'); // Genera el hash
@@ -47,7 +47,7 @@ const CharactersMarvelController = {
   },
 
   // Obtener un personaje por su ID
-  getMarvelCharacterById: async (request, response) => {
+  getCharacterById: async (request, response) => {
     const { id } = request.params; // Obtener el ID de la ruta
     try {
       const ts = new Date().getTime(); // Timestamp actual
@@ -90,28 +90,46 @@ const CharactersMarvelController = {
     }
   },
 
-  getMarvelCharactersWithParams: async (request, response) => {
+  getCharactersWithQuery: async (request, response) => {
     try {
       const ts = new Date().getTime();
+      const { 
+        nameStartsWith, 
+        modifiedSince, 
+        comics, 
+        series, 
+        events, 
+        stories, 
+        orderBy, 
+        limit, 
+        offset 
+      } = request.query;
+  
       const hash = crypto.createHash('md5').update(ts + MARVEL_PRIVATE_KEY + MARVEL_PUBLIC_KEY).digest('hex');
-
-      // Extraer query params
-      const { nameStartsWith, orderBy, limit, page } = request.query;
-      const offset = (page && limit) ? (page - 1) * limit : 0;
-
-      // Preparar los parámetros de la solicitud
+  
+      const limitValue = limit ? parseInt(limit) : 100;  // Valor por defecto de 100
+      const offsetValue = offset ? parseInt(offset) : 0;  // Valor por defecto de 0
+  
+      // Crear los parámetros, omitiendo los vacíos
       const params = {
         ts: ts,
         apikey: MARVEL_PUBLIC_KEY,
         hash: hash,
-        nameStartsWith: nameStartsWith || '',  // Filtrar por nombres que comiencen con
-        orderBy: orderBy || '',                // Ordenar resultados
-        limit: limit || 10,                    // Limitar resultados
-        offset: offset || 0                    // Desplazamiento para paginación
+        limit: limitValue,
+        offset: offsetValue,
+        ...(nameStartsWith && { nameStartsWith }), 
+        ...(modifiedSince && { modifiedSince }), 
+        ...(comics && { comics }), 
+        ...(series && { series }), 
+        ...(events && { events }), 
+        ...(stories && { stories }), 
+        ...(orderBy && { orderBy })
       };
-
+  
+      // Realizar la solicitud a la API de Marvel
       const res = await axios.get(MARVEL_API_URL, { params });
-
+  
+      // Filtrar los datos
       const filteredData = res.data.data.results.map(character => ({
         id: character.id,
         name: character.name,
@@ -120,7 +138,8 @@ const CharactersMarvelController = {
         thumbnail: `${character.thumbnail.path}.${character.thumbnail.extension}`,
         series: character.series.items.map(serie => serie.name)
       }));
-
+  
+      // Enviar la respuesta con los datos filtrados
       response.json({
         status: res.data.status,
         total: res.data.data.total,
@@ -133,7 +152,9 @@ const CharactersMarvelController = {
         error: error.message,
       });
     }
-  }
+  } 
 };
+
+
 
 module.exports = CharactersMarvelController;

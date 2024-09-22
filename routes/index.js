@@ -16,7 +16,7 @@ router.use("/sample", sample);
 //Rutas Eric
 router.use("/api/v1/clientes",Clientes);
 //
-router.use("/api/v1/marvel", CharactersMarvel);
+router.use("/api/v1/marvel/chars", CharactersMarvel);
 //Rutas Diego
 router.use("/api/v1/pokemon/search", PokemonSearch);
 //Rutas Eugenia
@@ -27,7 +27,7 @@ router.use("/api/v1/patients", PatientsRoutes);
 router.get("*", (req, res) => {
   res.json({
     status: 404,
-    msg: "not found",
+    msg: "Endpoint Not Found",
   });
 });
 
