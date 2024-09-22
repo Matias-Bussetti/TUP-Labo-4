@@ -1,8 +1,9 @@
 ## API con express creada con NodeJS para Proyecto 1 de Laboratorio IV 
-##Alumnos: Matias Ezequiel Bussetti, Juan Jose Chaparro, Eric Ponin, Diego Bruno y Maria Eugenia Losada
+## Alumnos: Matias Ezequiel Bussetti, Juan Jose Chaparro, Eric Ponin, Diego Bruno y Maria Eugenia Losada
 
 
-## API DE MARVEL. Alumno: Juan Jose Chaparro (Requiere API KEY en el archivo marvel.env)
+## API DE MARVEL. 
+Alumno: Juan Jose Chaparro (Requiere API KEY en el archivo marvel.env)
 Endpoints
 1. Obtener todos los personajes
 GET: /api/v1/marvel/chars/all
@@ -76,15 +77,19 @@ Respuesta:
   ]
 }
 
-## API DE PACIENTES. Alumno: Matias Ezequiel Bussetti
+## API DE PACIENTES. 
+Alumno: Matias Ezequiel Bussetti
 
 
-## API DE CLIENTES. Alumno: Eric Ponin
+## API DE CLIENTES. 
+Alumno: Eric Ponin
 
 
-## API DE POKEMON. Alumno: Diego Bruno
+## API DE POKEMON. 
+Alumno: Diego Bruno
 
 
-## API DE HARRY POTTER. Alumno: Maria Eugenia Losada
+## API DE HARRY POTTER. 
+Alumno: Maria Eugenia Losada
 
 
