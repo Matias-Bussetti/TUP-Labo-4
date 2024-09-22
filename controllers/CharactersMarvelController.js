@@ -8,11 +8,11 @@ const MARVEL_PRIVATE_KEY = process.env.MARVEL_PRIVATE_KEY;
 const MARVEL_API_URL = "https://gateway.marvel.com:443/v1/public/characters";
 
 const CharactersMarvelController = {
-  // Obtener todos los personajes
+  // get de todos los personajes
   getCharacters: async (request, response) => {
     try {
-      const ts = new Date().getTime(); // Timestamp actual
-      const hash = crypto.createHash('md5').update(ts + MARVEL_PRIVATE_KEY + MARVEL_PUBLIC_KEY).digest('hex'); // Genera el hash
+      const ts = new Date().getTime(); 
+      const hash = crypto.createHash('md5').update(ts + MARVEL_PRIVATE_KEY + MARVEL_PUBLIC_KEY).digest('hex'); 
 
       const res = await axios.get(MARVEL_API_URL, {
         params: {
@@ -23,7 +23,6 @@ const CharactersMarvelController = {
         },
       });
 
-      // Filtrar los datos que deseas
       const filteredData = res.data.data.results.map(character => ({
         id: character.id,
         name: character.name,
@@ -33,7 +32,6 @@ const CharactersMarvelController = {
         series: character.series.items.map(serie => serie.name)
       }));
 
-      // Enviar la respuesta en el formato deseado
       response.json({
         status: res.data.status,
         data: filteredData
@@ -46,12 +44,12 @@ const CharactersMarvelController = {
     }
   },
 
-  // Obtener un personaje por su ID
+  // Get de personajes por id
   getCharacterById: async (request, response) => {
     const { id } = request.params; // Obtener el ID de la ruta
     try {
-      const ts = new Date().getTime(); // Timestamp actual
-      const hash = crypto.createHash('md5').update(ts + MARVEL_PRIVATE_KEY + MARVEL_PUBLIC_KEY).digest('hex'); // Genera el hash
+      const ts = new Date().getTime();
+      const hash = crypto.createHash('md5').update(ts + MARVEL_PRIVATE_KEY + MARVEL_PUBLIC_KEY).digest('hex');
 
       const res = await axios.get(`${MARVEL_API_URL}/${id}`, {
         params: {
@@ -61,7 +59,7 @@ const CharactersMarvelController = {
         },
       });
 
-      // Filtrar los datos del personaje específico
+      // Filtrar los datos del personaje 
       const character = res.data.data.results[0];
 
       if (!character) {
@@ -77,7 +75,6 @@ const CharactersMarvelController = {
         series: character.series.items.map(serie => serie.name)
       };
 
-      // Enviar la respuesta con el personaje filtrado
       response.json({
         status: res.data.status,
         data: filteredCharacter
@@ -94,14 +91,10 @@ const CharactersMarvelController = {
     try {
       const ts = new Date().getTime();
       const { 
-        nameStartsWith, 
-        modifiedSince, 
-        comics, 
-        series, 
-        events, 
-        stories, 
-        orderBy, 
-        limit, 
+        nameStartsWith, // Filtrar por nombre que empiece con
+        name, // filtra por nombre exacto
+        orderBy, // Puede ser name o modified, si se le agrega un - se ordena de forma descendente
+        limit, // de 1 a 100, si no se le agrega nada se toma el valor por defecto de 100
         offset 
       } = request.query;
   
@@ -117,19 +110,14 @@ const CharactersMarvelController = {
         hash: hash,
         limit: limitValue,
         offset: offsetValue,
+        ...(name && { name }), 
         ...(nameStartsWith && { nameStartsWith }), 
-        ...(modifiedSince && { modifiedSince }), 
-        ...(comics && { comics }), 
-        ...(series && { series }), 
-        ...(events && { events }), 
-        ...(stories && { stories }), 
         ...(orderBy && { orderBy })
       };
   
-      // Realizar la solicitud a la API de Marvel
+      // Solicitud a la api de marvel
       const res = await axios.get(MARVEL_API_URL, { params });
   
-      // Filtrar los datos
       const filteredData = res.data.data.results.map(character => ({
         id: character.id,
         name: character.name,
@@ -139,7 +127,6 @@ const CharactersMarvelController = {
         series: character.series.items.map(serie => serie.name)
       }));
   
-      // Enviar la respuesta con los datos filtrados
       response.json({
         status: res.data.status,
         total: res.data.data.total,
@@ -154,7 +141,5 @@ const CharactersMarvelController = {
     }
   } 
 };
-
-
 
 module.exports = CharactersMarvelController;
