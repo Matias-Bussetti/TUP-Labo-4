@@ -5,12 +5,11 @@ const router = express.Router();
 const controller = require('../controllers/LaPiedraFilosofal');
 
 // Ruta para obtener un personaje por ID
-router.get('/:idPersonaje', controller.getPersonaje);
+router.get('/:id', controller.getCharacterById);
 
-// Ruta para obtener todos los personajes (máximo 50)
-router.get('/', controller.getPersonajes);
+// Ruta para obtener todos los personajes (máximo 50) con filtros opcionales
+router.get('/', controller.getAllCharacters);
 
-// Ruta para obtener personajes filtrados
-router.get('/filtrados', controller.getPersonajesFiltrados);
+
 
 module.exports = router;

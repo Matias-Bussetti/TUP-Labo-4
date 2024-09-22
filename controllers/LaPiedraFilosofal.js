@@ -1,84 +1,58 @@
-const axios = require('axios')
-const { request, response } = require('express')
+const CustomStatusMessage = require('../models/CustomStatusMessage');
+const ErrorMessage = require('../models/ErrorMessage');
+const ResponseMessage = require('../models/ResponseMessage');
 
 
+const axios = require('axios');
+const { request, response } = require('express');
 
-const HarryPotterCharacters = require('../models/HarryPotterCharacters'); 
+// Controlador para obtener todos los personajes de Harry Potter
+const getAllCharacters = (req = request, res = response) => {
+    const { page = 1, limit = 50, house, gender, name, actor, ancestry, alternate_names } = req.query; // Desestructuro los query params
+    const offset = (page - 1) * limit; 
+    
 
-const getPersonajes = async (req = request, res = response) => {
-  try {
-    const characters = await HarryPotterCharacters.all(); 
+    axios.get('https://hp-api.onrender.com/api/characters')
+        .then(({ data }) => {
+            // Filtra por casa y género si están presentes
+            const filteredData = data.filter(character => {
+                return HarryPotterCharacters.filterByQuery({ name, gender, house, actor, ancestry, alternate_names });
+            });
 
-    if (characters.length >= 50) {
-      res.status(200).json({
-        msg: 'Ok',
-        data: characters.slice(0, 50) // Limita la respuesta a 50 personajes
-      });
-    } else {
-      res.status(404).json({
-        msg: 'No se encontraron suficientes registros',
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({
-      msg: 'Error',
-      error
-    });
-  }
+            
+        })
+        .then(filteredData => {
+        // Implementa paginación
+        const paginatedData = filteredData.slice(offset, offset + limit);
+
+        // Usamos ResponseMessage para la respuesta exitosa
+        res.status(200).json(ResponseMessage.from(paginatedData, 200));
+        })
+        .catch((error) => {
+          console.error(error);
+          // Usamos ErrorMessage para manejar los errores
+          res.status(500).json(ErrorMessage.from(error, 500));
+        });
 };
 
-const getPersonajesFiltrados = async (req = request, res = response) => {
-  try {
-    const { name = '', gender = '', house = '', actor = '', ancestry = '', alternate_names = '' } = req.query;
+// Controlador para obtener un personaje por ID
+const getCharacterById = (req = request, res = response) => {
+    const { id: characterId } = req.params;
+    console.log('Character ID:', characterId);
 
-    const characters = await HarryPotterCharacters.filterByQuery({ name, gender, house, actor, ancestry, alternate_names }); 
-
-    if (characters.length > 0) {
-      res.status(200).json({
-        msg: 'Ok',
-        data: characters
-      });
-    } else {
-      res.status(404).json({
-        msg: 'No se encontraron personajes con los filtros especificados',
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({
-      msg: 'Error',
-      error
-    });
-  }
-};
-
-const getPersonaje = async (req = request, res = response) => {
-  try {
-    const { idPersonaje = '' } = req.params;
-
-    const character = await HarryPotterCharacters.whereId(idPersonaje); 
-    if (character) {
-      res.status(200).json({
-        msg: 'Ok',
-        data: character
-      });
-    } else {
-      res.status(404).json({
-        msg: 'No se encontró el personaje con el id especificado',
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({
-      msg: 'Error',
-      error
-    });
-  }
+    axios.get(`https://hp-api.onrender.com/api/characters/${characterId}`)
+        .then(({ data }) => {
+          // Usamos ResponseMessage para la respuesta exitosa
+          res.status(200).json(ResponseMessage.from(data, 200));
+        })
+        .catch((error) => {
+          console.error(error);
+          // Usamos ErrorMessage para manejar los errores
+          res.status(500).json(ErrorMessage.from(error, 500));
+        });
 };
 
 module.exports = {
-  getPersonajesFiltrados,
-  getPersonaje,
-  getPersonajes
+    getAllCharacters,
+    getCharacterById
 };
