@@ -2,7 +2,7 @@ const axios = require('axios');
 
 class HarryPotterCharacters {
   static async fetch() {
-    const response = await axios.get('https://hp-api.herokuapp.com/api/characters');
+    const response = await axios.get('https://hp-api.onrender.com/api/characters');
     const results = response.data;
 
     return results.map((character, index) => {

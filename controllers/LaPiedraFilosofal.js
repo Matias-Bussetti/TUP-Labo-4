@@ -1,6 +1,7 @@
 const CustomStatusMessage = require('../models/CustomStatusMessage');
 const ErrorMessage = require('../models/ErrorMessage');
 const ResponseMessage = require('../models/ResponseMessage');
+const HarryPotterCharacters = require('../models/HarryPotterCharacters');
 
 
 const axios = require('axios');
@@ -14,19 +15,17 @@ const getAllCharacters = (req = request, res = response) => {
 
     axios.get('https://hp-api.onrender.com/api/characters')
         .then(({ data }) => {
-            // Filtra por casa y género si están presentes
-            const filteredData = data.filter(character => {
-                return HarryPotterCharacters.filterByQuery({ name, gender, house, actor, ancestry, alternate_names });
-            });
+          // Filtra los datos según los parámetros de consulta
+          const filteredData = HarryPotterCharacters.filterByQuery({ name, gender, house, actor, ancestry, alternate_names });
+          return filteredData;
 
-            
-        })
+        })   
         .then(filteredData => {
-        // Implementa paginación
-        const paginatedData = filteredData.slice(offset, offset + limit);
+          // Implementa paginación
+          const paginatedData = filteredData.slice(offset, offset + limit);
 
-        // Usamos ResponseMessage para la respuesta exitosa
-        res.status(200).json(ResponseMessage.from(paginatedData, 200));
+          // Usamos ResponseMessage para la respuesta exitosa
+          res.status(200).json(ResponseMessage.from(paginatedData, 200));
         })
         .catch((error) => {
           console.error(error);
@@ -35,21 +34,30 @@ const getAllCharacters = (req = request, res = response) => {
         });
 };
 
-// Controlador para obtener un personaje por ID
+// Controlador para obtener un personaje por ID de personaje
 const getCharacterById = (req = request, res = response) => {
-    const { id: characterId } = req.params;
-    console.log('Character ID:', characterId);
+  const { id: characterId } = req.params; // Obtenemos el ID del personaje desde los parámetros de la URL
+  console.log('Character ID:', characterId);
 
-    axios.get(`https://hp-api.onrender.com/api/characters/${characterId}`)
-        .then(({ data }) => {
-          // Usamos ResponseMessage para la respuesta exitosa
-          res.status(200).json(ResponseMessage.from(data, 200));
-        })
-        .catch((error) => {
+  // Realizamos la solicitud para obtener todos los personajes
+  axios.get('https://hp-api.onrender.com/api/characters')
+      .then(({ data }) => {
+          // Una vez que tenemos todos los personajes, seleccionamos el que coincide con el ID
+          const character = data[characterId]; // Usamos el ID como índice en el array
+
+          // Si el personaje no existe, devolvemos un error 404
+          if (!character) {
+            return res.status(404).json(CustomStatusMessage.from(null, 404, 'Character not found'));
+          }
+
+          // Si se encuentra el personaje, devolvemos la respuesta exitosa
+          res.status(200).json(ResponseMessage.from(character, 200));
+      })
+      .catch((error) => {
           console.error(error);
-          // Usamos ErrorMessage para manejar los errores
+          // Si hay un error, devolvemos un mensaje de error con código 500
           res.status(500).json(ErrorMessage.from(error, 500));
-        });
+      });
 };
 
 module.exports = {
