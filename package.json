@@ -9,7 +9,7 @@
     "watch": "node --watch app.js",
     "lint": "npm run lint"
   },
-  "author": "Sebastian Gañan",
+  "author": "Grupo",
   "license": "ISC",
   "dependencies": {
     "api_express_2024": "file:",
