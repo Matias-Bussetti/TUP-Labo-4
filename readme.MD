@@ -1,33 +1,41 @@
-## API con express creada con NodeJS para Proyecto 1 de Laboratorio IV 
-## Alumnos: Matias Ezequiel Bussetti, Juan Jose Chaparro, Eric Ponin, Diego Bruno y Maria Eugenia Losada
+# API con Express creada con Node.js para Proyecto 1 de Laboratorio IV
 
+## Alumnos
+- Matias Ezequiel Bussetti
+- Juan Jose Chaparro
+- Eric Ponin
+- Diego Bruno
+- Maria Eugenia Losada
 
-## API DE MARVEL. 
-Alumno: Juan Jose Chaparro (Requiere API KEY en el archivo marvel.env)
-Endpoints
-1. Obtener todos los personajes
-GET: /api/v1/marvel/chars/all
-GET RENDER: https://tup-labo-4-grupo-15.onrender.com/api/v1/marvel/chars/all
+## API DE MARVEL
+**Alumno**: Juan Jose Chaparro (Requiere API KEY en el archivo `marvel.env`)
 
-Descripción: Retorna una lista de los primeros 100 personajes de Marvel.
-Respuesta:
-{
-  "status": "Ok",
-  "data": [
-    {
-      "id": 1011334,
-      "name": "3-D Man",
-      "description": "",
-      "modified": "2014-04-29T14:18:17-0400",
-      "thumbnail": "path/to/thumbnail.jpg",
-      "series": ["Series 1", "Series 2"]
-    },
-    ...
-  ]
-}
+### Endpoints
 
-2. Obtener un personaje por ID
-GET: /api/v1/marvel/chars/:id
+1. **Obtener todos los personajes**
+   - **GET**: `/api/v1/marvel/chars/all`
+   - **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/marvel/chars/all](https://tup-labo-4-grupo-15.onrender.com/api/v1/marvel/chars/all)
+
+   **Descripción**: Retorna una lista de los primeros 100 personajes de Marvel.
+
+   **Respuesta**:
+   ```json
+   {
+     "status": "Ok",
+     "data": [
+       {
+         "id": 1011334,
+         "name": "3-D Man",
+         "description": "",
+         "modified": "2014-04-29T14:18:17-0400",
+         "thumbnail": "path/to/thumbnail.jpg",
+         "series": ["Series 1", "Series 2"]
+       }
+     ]
+   }
+
+2. **Obtener personajes por ID**
+- **GET**: `/api/v1/marvel/chars/:id`
 GET RENDER: https://tup-labo-4-grupo-15.onrender.com/api/v1/marvel/chars/:id
 
 Descripción: Retorna la información de un personaje específico mediante su ID.
