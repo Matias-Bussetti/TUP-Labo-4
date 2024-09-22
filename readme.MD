@@ -56,8 +56,6 @@
   }
 
 3. **Obtener personajes con filtros(query params)**
-GET: /api/v1/marvel/chars?nameStartsWith=string&name=string&orderBy=string&limit=int&offset=int
-GET RENDER: https://tup-labo-4-grupo-15.onrender.com/api/v1/marvel/chars?nameStartsWith=string&name=string&orderBy=string&limit=int&offset=int
   - **GET**: `/api/v1/marvel/chars?nameStartsWith=string&name=string&orderBy=string&limit=int&offset=int`
   - **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/marvel/chars?nameStartsWith=string&name=string&orderBy=string&limit=int&offset=int](https://tup-labo-4-grupo-15.onrender.com/api/v1/marvel/chars?nameStartsWith=string&name=string&orderBy=string&limit=int&offset=int)
 
