@@ -4,7 +4,7 @@
 
 //Rutas
 const sample = require("./sample");
-const CharactersMarvel = require("./CharactersMarvel");
+const CharactersMarvel = require("./CharactersMarvelRoutes");
 const PokemonSearch = require("./PokemonSearch");
 const LaPiedraFilosofal = require("./LaPiedraFilosofal");
 const PatientsRoutes = require("./PatientsRoutes");
