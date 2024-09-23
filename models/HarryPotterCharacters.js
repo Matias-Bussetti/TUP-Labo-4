@@ -19,18 +19,16 @@ class HarryPotterCharacters {
   }
 
   static async all() {
-    const characters = await this.fetch();
-    return characters;
+    return await this.fetch();
   }
 
   static async whereId(id) {
     const characters = await this.fetch();
-    return characters.find((character) => character.id === id);
+    return characters.find((character) => character.id === Number(id));
   }
 
   static async filterByQuery({ name, gender, house, actor, ancestry, alternate_names }) {
     const characters = await this.fetch();
-    
     return characters.filter(character => {
         return (!name || character.name.toLowerCase().includes(name.toLowerCase())) &&
         (!gender || character.gender.toLowerCase() === gender.toLowerCase()) &&
