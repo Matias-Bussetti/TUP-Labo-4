@@ -2,6 +2,7 @@ const { request, response } = require("express");
 const axios = require("axios");
 
 const POKEAPI_URL = "https://pokeapi.co/api/v2/pokemon/";
+const POKEAPI_URL_TYPE = "https://pokeapi.co/api/v2/type/";
 
 
 const PokemonSearchController = {
@@ -41,13 +42,18 @@ const PokemonSearchController = {
     getPokemonSearchAll: async (request, response) => {
         try{
             // Aca armo la url
+            console.log("Llamando a la API de Pokémon...");
             const pokemonUrl =  `${POKEAPI_URL}`;
+
+            console.log("URL de la API:", pokemonUrl);
 
             const pokemonData = await axios.get(pokemonUrl,{
                 params:{
-                    limit:50
+                    limit:20
                 }
             });
+
+            console.log("Datos recibidos:", pokemonData.data);
 
             // Hacemos solicitudes adicionales para obtener los detalles de cada Pokémon
             const pokemonDetallesConsulta = pokemonData.data.results.map(async (pokemon) => { //
@@ -76,6 +82,7 @@ const PokemonSearchController = {
             });
         }
     }
+    
 }
 
 module.exports = PokemonSearchController;
