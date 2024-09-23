@@ -94,6 +94,97 @@
 ## API DE CLIENTES. 
 **Alumno**: Eric Ponin
 
+### Endpoints  
+
+1. **Obtener todos los clientes**  
+   - **GET**: `/api/v1/clientes`  
+   - **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/clientes](https://tup-labo-4-grupo-15.onrender.com/api/v1/clientes)  
+
+   **Descripción**: Retorna una lista de todos los clientes almacenados en el sistema.  
+
+   **Respuesta**:  
+   ```json
+   {
+     "msg": "Ok",
+     "data": [
+       {
+         "fechaNac": "2024-09-20T01:23:37.207Z",
+         "nombre": "Constance O'Connell",
+         "direccion": "North",
+         "dni": "3",
+         "email": "Schuyler_OReilly@hotmail.com",
+         "bip": false,
+         "Genero": "male",
+         "id": "2"
+       },
+       {
+         "fechaNac": "2024-09-20T01:37:45.851Z",
+         "nombre": "Vincent Morar",
+         "direccion": "South",
+         "dni": "5",
+         "email": "Alexandro.Wiegand@gmail.com",
+         "bip": false,
+         "Genero": "male",
+         "id": "4"
+       }
+     ]
+   }
+   ```  
+
+2. **Obtener cliente por ID**  
+   - **GET**: `/api/v1/clientes/buscar?id=string`  
+   - **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/clientes/buscar?id=string](https://tup-labo-4-grupo-15.onrender.com/api/v1/clientes/buscar?id=string)  
+
+   **Descripción**: Retorna la información de un cliente específico según su ID.  
+
+   **Parámetros de consulta (query params)**:  
+   - `id (string)`: El ID del cliente a buscar.  
+
+   **Respuesta**:  
+   ```json
+   {
+     "msg": "Ok",
+     "data": {
+       "fechaNac": "2024-09-20T01:23:37.207Z",
+       "nombre": "Constance O'Connell",
+       "direccion": "North",
+       "dni": "3",
+       "email": "Schuyler_OReilly@hotmail.com",
+       "bip": false,
+       "Genero": "male",
+       "id": "2"
+     }
+   }
+   ```  
+
+3. **Obtener clientes por género**  
+   - **GET**: `/api/v1/clientes/genero?genero=string`  
+   - **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/clientes/genero?genero=string](https://tup-labo-4-grupo-15.onrender.com/api/v1/clientes/genero?genero=string)  
+
+   **Descripción**: Filtra y retorna una lista de clientes basados en el género especificado.  
+
+   **Parámetros de consulta (query params)**:  
+   - `genero (string)`: Género por el cual se desea filtrar (e.g., `male`, `female`).  
+
+   **Respuesta**:  
+   ```json
+   {
+     "msg": "Ok",
+     "data": [
+       {
+         "fechaNac": "2024-09-20T01:23:37.207Z",
+         "nombre": "Constance O'Connell",
+         "direccion": "North",
+         "dni": "3",
+         "email": "Schuyler_OReilly@hotmail.com",
+         "bip": false,
+         "Genero": "male",
+         "id": "2"
+       }
+     ]
+   }
+   ```
+
 
 ## API DE POKEMON. 
 **Alumno**: Diego Bruno
