@@ -1,84 +1,65 @@
-const axios = require('axios')
-const { request, response } = require('express')
+const CustomStatusMessage = require('../models/CustomStatusMessage');
+const ErrorMessage = require('../models/ErrorMessage');
+const ResponseMessage = require('../models/ResponseMessage');
+const HarryPotterCharacters = require('../models/HarryPotterCharacters');
 
-const getPersonaje = (req = request, res = response) => {
-  const { lastname = '', year = '', category = '', page = '' } = req.query
-  console.log(lastname, year, category, page)
 
-  const filtro = (lastname) ? `?lastname=${lastname}` : ''
+const axios = require('axios');
+const { request, response } = require('express');
 
-  axios.get(`https://hp-api.herokuapp.com/api/characters/${filtro}`)
-    .then((response) => {
-      const { data = [] } = response
-      // handle success
-      // console.log(data);
+// Controlador para obtener todos los personajes de Harry Potter
+const getAllCharacters = (req = request, res = response) => {
+  const { page = 1, limit = 50, house, gender, name, actor, ancestry, alternate_names } = req.query; // Desestructuro los query params
+  const offset = (page - 1) * limit; 
+  
+  HarryPotterCharacters.all()
+    .then((characters) => {
+      HarryPotterCharacters.filterByQuery({ 
+        characters,
+        name, 
+        gender, 
+        house, 
+        actor, 
+        ancestry, 
+        alternate_names,
+        
+    }).then((filteredData) => {
+        // Aplicar paginación
+        const paginatedData = filteredData.slice(offset, offset + limit);
 
-      res.status(200).json({
-        msg: 'Ok',
-        data
-      })
+        // Usamos ResponseMessage para la respuesta exitosa
+        res.status(200).json(ResponseMessage.from(paginatedData, 200));
+      });
     })
     .catch((error) => {
-      // handle error
-      console.log(error)
-      res.status(400).json({
-        msg: 'Error',
-        error
+      console.error(error);
+      // Usamos ErrorMessage para manejar los errores
+      res.status(500).json(ErrorMessage.from(error, 500));
+    });
+};
+
+// Controlador para obtener un personaje por ID de personaje
+const getCharacterById = (req = request, res = response) => {
+  const { id: characterId } = req.params; // Obtenemos el ID del personaje desde los parámetros de la URL
+
+  HarryPotterCharacters.whereId(characterId)
+      .then(( character) => {
+          // Si el personaje no existe, devolvemos un error 404
+          if (!character) {
+            return res.status(404).json(CustomStatusMessage.from(null, 404, 'Character not found'));
+          }
+
+          // Si se encuentra el personaje, devolvemos la respuesta exitosa
+          res.status(200).json(ResponseMessage.from(character, 200));
       })
-    })
-}
-
-// eslint-disable-next-line no-unused-vars
-const getEmpleadoOld = (req = request, res = response) => {
-  const { idEmpleado } = req.params
-  console.log(idEmpleado)
-
-  axios.get('https://66c78f59732bf1b79fa6e8c7.mockapi.io/api/v1/empleados')
-    .then((response) => {
-      const { data } = response
-
-      const newArray = data.filter(item => item.id === idEmpleado)
-      // handle success
-      // console.log(data);
-
-      res.status(200).json({
-        msg: 'Ok',
-        data: newArray
-      })
-    })
-    .catch((error) => {
-      // handle error
-      console.log(error)
-      res.status(400).json({
-        msg: 'Error',
-        error
-      })
-    })
-}
-
-const getEmpleado = (req = request, res = response) => {
-  const { idEmpleado = '' } = req.params
-  console.log(idEmpleado)
-
-  axios.get(`https://hp-api.herokuapp.com/api/characters/${idPersonaje}`)
-    .then((response) => {
-      const { data } = response
-      res.status(200).json({
-        msg: 'Ok',
-        data
-      })
-    })
-    .catch((error) => {
-      // handle error
-      console.log(error)
-      res.status(400).json({
-        msg: 'Error',
-        error
-      })
-    })
-}
+      .catch((error) => {
+          console.error(error);
+          // Si hay un error, devolvemos un mensaje de error con código 500
+          res.status(500).json(ErrorMessage.from(error, 500));
+      });
+};
 
 module.exports = {
-  getPersonaje,
-  getEmpleado
-}
+    getAllCharacters,
+    getCharacterById
+};

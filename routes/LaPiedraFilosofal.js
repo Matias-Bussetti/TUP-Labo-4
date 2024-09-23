@@ -1,12 +1,15 @@
-const express = require("express");
-
+const express = require('express');
 const router = express.Router();
 
 // Controlador
-const controller = require("./../controllers/LaPiedraFilosofal");
+const controller = require('../controllers/LaPiedraFilosofal');
 
-router.get("/", controller.getPersonaje);
-//router.get("/personajes", controller.getPersonajes);
+// Ruta para obtener un personaje por ID
+router.get('/:id', controller.getCharacterById);
+
+// Ruta para obtener todos los personajes (máximo 50) con filtros opcionales
+router.get('/', controller.getAllCharacters);
+
 
 
 module.exports = router;
