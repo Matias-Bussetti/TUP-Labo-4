@@ -1,9 +1,9 @@
- const express = require("express");
+const express = require("express");
 
- const router = express.Router();
+const router = express.Router();
 
 //Rutas
-const sample = require("./sample");
+//const sample = require("./sample");
 const CharactersMarvel = require("./CharactersMarvelRoutes");
 const PokemonSearch = require("./PokemonSearch");
 const LaPiedraFilosofal = require("./LaPiedraFilosofal");
@@ -11,7 +11,7 @@ const PatientsRoutes = require("./PatientsRoutes");
 const Clientes = require("../routes/Clientes")
 
 //Rutas de prueba
-router.use("/sample", sample);
+//router.use("/sample", sample);
 //Rutas Eric
 router.use("/api/v1/clientes",Clientes);
 //Rutas Juan
@@ -31,4 +31,4 @@ router.get("*", (req, res) => {
   });
 });
 
- module.exports = router;
+module.exports = router;
