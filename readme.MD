@@ -189,11 +189,6 @@
 ## API DE POKEMON. 
 **Alumno**: Diego Bruno
 
-
-## API DE HARRY POTTER. 
-**Alumno**: Maria Eugenia Losada
-
-
 ## API DE HARRY POTTER  
 **Alumno**: Maria Eugenia Losada
 
