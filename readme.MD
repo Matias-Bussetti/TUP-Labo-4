@@ -98,6 +98,81 @@
 ## API DE POKEMON. 
 **Alumno**: Diego Bruno
 
+### Endpoints
+
+1. **Obtener todos los pokemons (muestra los primeros 50)**
+   - **GET**: `/api/v1/pokemon/all`
+   - **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/pokemon/all](https://tup-labo-4-grupo-15.onrender.com/api/v1/pokemon/all)
+
+   **Descripción**: Retorna una lista de los primeros 50 pokemons.
+
+   **Respuesta**:
+   ```json
+   {
+     "status": 200,
+      "data": [
+        {
+          "id": 1,
+          "name": "bulbasaur",
+          "types": [
+              "grass",
+              "poison"
+          ]
+        }
+    ]
+   }
+
+2. **Obtener pokemon por ID**
+  - **GET**: `/api/v1/pokemon/:id`
+  - **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/pokemon/:id](https://tup-labo-4-grupo-15.onrender.com/api/v1/pokemon/:id)
+
+    **Descripción**: Retorna la información de un pokemon en específico mediante su ID.
+    **Parámetros**:
+    **id de Pokedex**: ID del pokemon a buscar.
+    **Respuesta**:
+    ```json
+    {
+      "status": "200",
+      "data": {
+        "id": 25,
+        "name": "pikachu",
+        "types": [
+              "grass",
+              "poison"
+          ]
+      }
+    }
+
+3. **Obtener pokemon con filtros. Query params**
+  - **GET**: `/api/v1/pokemon/search?name=string&limit=int&offset=int`
+  - **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/pokemon/search?name=string&limit=int&offset=int](https://tup-labo-4-grupo-15.onrender.com/api/v1/pokemon/search?name=string&limit=int&offset=int)
+
+    **Descripción**: Retorna una lista de pokemon filtrados por los parámetros especificados.
+
+    **Parámetros de consulta**:
+    **name (string)**: Filtra por el nombre del pokemon.
+    **limit (int)**: Número de personajes a retornar (por defecto es ).
+    **offset (int)**: Número de personajes a omitir (por defecto es 0).
+
+    **Respuesta**:
+    ```json
+    {
+      "status": "Ok",
+      "total": 100,
+      "count": 100,
+      "data": [
+        {
+          "id": 1011334,
+          "name": "3-D Man",
+          "description": "",
+          "modified": "2014-04-29T14:18:17-0400",
+          "thumbnail": "path/to/thumbnail.jpg",
+          "series": ["Series 1", "Series 2"]
+        },
+        ......
+      ]
+    }
+
 
 ## API DE HARRY POTTER. 
 **Alumno**: Maria Eugenia Losada

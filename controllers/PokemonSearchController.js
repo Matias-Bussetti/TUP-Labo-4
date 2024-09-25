@@ -1,8 +1,10 @@
 const { request, response } = require("express");
 const axios = require("axios");
+const ResponseMessage = require("../models/ResponseMessage");
+const CustomStatusMessage = require("../models/CustomStatusMessage");
+const ErrorMessage = require("../models/ErrorMessage");
 
 const POKEAPI_URL = "https://pokeapi.co/api/v2/pokemon/";
-const POKEAPI_URL_TYPE = "https://pokeapi.co/api/v2/type/";
 
 
 const PokemonSearchController = {
@@ -24,64 +26,87 @@ const PokemonSearchController = {
                 name: pokemonData.data.name,
                 types: pokemonData.data.types.map(typeInfo => typeInfo.type.name)
             };
-
             // Devuelvo la respuesta filtrada
-            response.status(200).json({
-                status: 200,
-                msg: "Pokemon encontrado",
-                data: filteredData,
-            });
-    } catch(error){
-        response.status(500).json({
-            message: "Error consumiendo datos de la API de Pokemon",
-            error: error.message,
-        });
-    }
-    }, //Acá termina la primera peticion
+            response.json(ResponseMessage.from(filteredData));
+
+        } catch(error){
+            if (error.response && error.response.status === 404) {
+                response.status(404).json(CustomStatusMessage.from(null, 404, "Pokemon no encontrado"));
+            } else {
+                response.status(500).json(ErrorMessage.from(error));
+            }
+        }
+    },
 
     getPokemonSearchAll: async (request, response) => {
-        try{
-            // Aca armo la url
-            console.log("Llamando a la API de Pokémon...");
-            const pokemonUrl =  `${POKEAPI_URL}`;
+        try {
+            const {
+                limit = 10, 
+                offset = 0 } = request.query;
 
-            console.log("URL de la API:", pokemonUrl);
+            // Construir la URL de la PokeAPI con los parámetros de paginación
+            const pokemonUrl = `${POKEAPI_URL}?limit=${limit}&offset=${offset}`;
+            // Realizar la solicitud a la PokeAPI
+            const pokemonResponse = await axios.get(pokemonUrl);
+            const pokemonList = pokemonResponse.data.results;
 
-            const pokemonData = await axios.get(pokemonUrl,{
-                params:{
-                    limit:20
-                }
-            });
+            //Creo un arreglo para obtener el detalle de cada pokemon
+            const detailedPokemonList = await Promise.all(
+                pokemonList.map(async (pokemon) => {
+                    const pokemonDetails = await axios.get(pokemon.url);
+    
+                    // Filtro la información que voy a mostrar
+                    return {
+                        id: pokemonDetails.data.id,
+                        name: pokemonDetails.data.name,
+                        types: pokemonDetails.data.types.map(typeInfo => typeInfo.type.name)
+                    };
+                })
+            );
+    
+            // Devolver la lista de Pokémon en la respuesta
+            response.json(ResponseMessage.from(detailedPokemonList));
 
-            console.log("Datos recibidos:", pokemonData.data);
+        } catch (error) {
 
-            // Hacemos solicitudes adicionales para obtener los detalles de cada Pokémon
-            const pokemonDetallesConsulta = pokemonData.data.results.map(async (pokemon) => { //
-                const pokemonDetalles = await axios.get(pokemon.url); //los detalles del Pokémon se almacenan en la variable pokemonDetalles
-                return {
-                    id: pokemonDetalles.data.id,
-                    name: pokemonDetalles.data.name,
-                    types: pokemonDetalles.data.types.map(typeInfo => typeInfo.type.name)
-                };
-            });
+            if (error.response && error.response.status === 404) {
+                response.status(404).json(CustomStatusMessage.from(null, 404, "Pokemon no encontrado"));
+            } else {
+                response.status(500).json(ErrorMessage.from(error));
+            }
+        }
+    },
 
-             // Esperamos a que todas las promesas de detalles se resuelvan
-            const filteredData = await Promise.all(pokemonDetallesConsulta);
+    // Buscar Pokémon con filtros (limit, offset, name)
+    getPokemonByQuery: async (request, response) => {
+        try {
+            const {
+                name, 
+                limit = 1025, // Valor predeterminado para limit para que aparezcan todos los pokemons
+                offset = 0 } = request.query;
 
-            response.status(200).json({
-            status: 200,
-            msg: "Pokémon encontrados",
-            data: filteredData,
-        });
+            const pokemonUrl = `${POKEAPI_URL}?limit=${limit}&offset=${offset}`;
+            const pokemonResponse = await axios.get(pokemonUrl);
+            const pokemonList = pokemonResponse.data.results;
 
+            // Filtrar por nombre si se proporciona en los parámetros
+            let filteredData = pokemonList;
 
-        }catch(error){
-            response.status(500).json({
-                message: "Error consumiendo datos de la API de Pokemon",
-                error: error.message,
-            });
+            if (name) {
+                filteredData = pokemonList.filter(pokemon => pokemon.name.toLowerCase() === name.toLowerCase());
+            }
+
+            response.json(ResponseMessage.from(filteredData));
+
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                response.status(404).json(CustomStatusMessage.from(null, 404, "Pokemon no encontrado"));
+            } else {
+                response.status(500).json(ErrorMessage.from(error));
+            }
         }
     }
+    
     
 }
 

@@ -17,7 +17,7 @@ router.use("/api/v1/clientes",Clientes);
 //Rutas Juan
 router.use("/api/v1/marvel/chars", CharactersMarvel);
 //Rutas Diego
-router.use("/api/v1/pokemon/search", PokemonSearch);
+router.use("/api/v1/pokemon", PokemonSearch);
 //Rutas Eugenia
 router.use("/api/v1/personajes", LaPiedraFilosofal);
 //Rutas Matias
