@@ -144,34 +144,32 @@
     }
 
 3. **Obtener pokemon con filtros. Query params**
-  - **GET**: `/api/v1/pokemon/search?name=string&limit=int&offset=int`
-  - **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/pokemon/search?name=string&limit=int&offset=int](https://tup-labo-4-grupo-15.onrender.com/api/v1/pokemon/search?name=string&limit=int&offset=int)
+  - **GET**: `/api/v1/pokemon/search?name=string&type=string&limit=int&offset=int`
+  - **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/pokemon/search?name=string&type=string&limit=int&offset=int](https://tup-labo-4-grupo-15.onrender.com/api/v1/pokemon/search?name=string&type=string&limit=int&offset=int)
 
     **Descripción**: Retorna una lista de pokemon filtrados por los parámetros especificados.
 
     **Parámetros de consulta**:
     **name (string)**: Filtra por el nombre del pokemon.
+    **type (string)**: Filtra por el tipo del pokemon.
     **limit (int)**: Número de personajes a retornar (por defecto es ).
     **offset (int)**: Número de personajes a omitir (por defecto es 0).
 
     **Respuesta**:
     ```json
     {
-      "status": "Ok",
-      "total": 100,
-      "count": 100,
+     "status": 200,
       "data": [
         {
-          "id": 1011334,
-          "name": "3-D Man",
-          "description": "",
-          "modified": "2014-04-29T14:18:17-0400",
-          "thumbnail": "path/to/thumbnail.jpg",
-          "series": ["Series 1", "Series 2"]
-        },
-        ......
-      ]
-    }
+          "id": 1,
+          "name": "bulbasaur",
+          "types": [
+              "grass",
+              "poison"
+          ]
+        }
+    ]
+   }
 
 
 ## API DE HARRY POTTER. 

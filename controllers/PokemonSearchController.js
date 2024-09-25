@@ -5,6 +5,7 @@ const CustomStatusMessage = require("../models/CustomStatusMessage");
 const ErrorMessage = require("../models/ErrorMessage");
 
 const POKEAPI_URL = "https://pokeapi.co/api/v2/pokemon/";
+const POKEAPI_URL_TYPE = "https://pokeapi.co/api/v2/type/";
 
 
 const PokemonSearchController = {
@@ -81,20 +82,46 @@ const PokemonSearchController = {
     getPokemonByQuery: async (request, response) => {
         try {
             const {
-                name, 
-                limit = 1025, // Valor predeterminado para limit para que aparezcan todos los pokemons
+                name,
+                type,
+                limit = 10, // Valor predeterminado para limit para que aparezcan todos los pokemons
                 offset = 0 } = request.query;
 
             const pokemonUrl = `${POKEAPI_URL}?limit=${limit}&offset=${offset}`;
             const pokemonResponse = await axios.get(pokemonUrl);
             const pokemonList = pokemonResponse.data.results;
 
+            //Creo un arreglo para obtener el detalle de cada pokemon
+            const detailedPokemonList = await Promise.all(
+                pokemonList.map(async (pokemon) => {
+                    const pokemonDetails = await axios.get(pokemon.url);
+    
+                    // Filtro la información que voy a mostrar
+                    return {
+                        id: pokemonDetails.data.id,
+                        name: pokemonDetails.data.name,
+                        types: pokemonDetails.data.types.map(typeInfo => typeInfo.type.name)
+                    };
+                })
+            );
+
             // Filtrar por nombre si se proporciona en los parámetros
-            let filteredData = pokemonList;
+            let filteredData = detailedPokemonList;
 
             if (name) {
-                filteredData = pokemonList.filter(pokemon => pokemon.name.toLowerCase() === name.toLowerCase());
+                filteredData = detailedPokemonList.filter(pokemon => pokemon.name.toLowerCase() === name.toLowerCase());
             }
+
+            // Filtrar por tipo si se proporciona en los parámetros
+            if (type) {
+                const typeUrl = `${POKEAPI_URL_TYPE}${type}`;
+                const typeResponse = await axios.get(typeUrl);
+                const pokemonsOfType = typeResponse.data.pokemon.map(p => p.pokemon.name);
+
+                filteredData = filteredData.filter(pokemon => pokemonsOfType.includes(pokemon.name));
+            }
+
+            
 
             response.json(ResponseMessage.from(filteredData));
 
