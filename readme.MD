@@ -474,10 +474,10 @@
     **Descripción**: Retorna una lista de pokemon filtrados por los parámetros especificados.
 
     **Parámetros de consulta**:
-    **name (string)**: Filtra por el nombre del pokemon.
-    **type (string)**: Filtra por el tipo del pokemon.
-    **limit (int)**: Número de personajes a retornar (por defecto es ).
-    **offset (int)**: Número de personajes a omitir (por defecto es 0).
+    - **name (string)**: Filtra por el nombre del pokemon.
+    - **type (string)**: Filtra por el tipo del pokemon.
+    - **limit (int)**: Número de personajes a retornar (por defecto es ).
+    - **offset (int)**: Número de personajes a omitir (por defecto es 0).
 
     **Respuesta**:
     ```json

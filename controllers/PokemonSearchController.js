@@ -42,7 +42,7 @@ const PokemonSearchController = {
     getPokemonSearchAll: async (request, response) => {
         try {
             const {
-                limit = 10, 
+                limit = 0,
                 offset = 0 } = request.query;
 
             // Construir la URL de la PokeAPI con los parámetros de paginación
