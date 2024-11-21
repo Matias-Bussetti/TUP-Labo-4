@@ -110,8 +110,8 @@
 
 1. **Obtener todos los pacientes**
 
-   - **GET**: `/api/v1/patitents`
-   - **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/patitents](https://tup-labo-4-grupo-15.onrender.com/api/v1/patitents)
+   - **GET**: `/api/v1/patients`
+   - **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/patients](https://tup-labo-4-grupo-15.onrender.com/api/v1/patients)
 
    **Descripción**: Retorna una lista de 50 pacientes.
 
@@ -166,8 +166,8 @@
 
 2. **Obtener paciente por ID**
 
-- **GET**: `/api/v1/patitents/:id`
-- **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/patitents/2d5afd5e-a598-469f-9933-4edba18bcefb](https://tup-labo-4-grupo-15.onrender.com/api/v1/patitents/2d5afd5e-a598-469f-9933-4edba18bcefb)
+- **GET**: `/api/v1/patients/:id`
+- **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/patients/2d5afd5e-a598-469f-9933-4edba18bcefb](https://tup-labo-4-grupo-15.onrender.com/api/v1/patients/2d5afd5e-a598-469f-9933-4edba18bcefb)
 
   **Descripción**: Retorna la información de un paciente específico mediante su ID.
   **Parámetros**:
@@ -221,8 +221,8 @@
 
 3. **Obtener Pacientes con filtros. Query params**
 
-- **GET**: `/api/v1/patitents?gender=string&age=int`
-- **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/patitents?gender=female&age=33](https://tup-labo-4-grupo-15.onrender.com/api/v1/patitents?gender=female&age=33)
+- **GET**: `/api/v1/patients?gender=string&age=int`
+- **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/patients?gender=female&age=33](https://tup-labo-4-grupo-15.onrender.com/api/v1/patients?gender=female&age=33)
 
   **Descripción**: Retorna una lista de pacientes filtrados por los parámetros especificados.
 
