@@ -25,7 +25,8 @@ const PokemonSearchController = {
             const filteredData = {
                 id: pokemonData.data.id,
                 name: pokemonData.data.name,
-                types: pokemonData.data.types.map(typeInfo => typeInfo.type.name)
+                types: pokemonData.data.types.map(typeInfo => typeInfo.type.name),
+                image: pokemonData.data.sprites.front_default, //ADDED
             };
             // Devuelvo la respuesta filtrada
             response.json(ResponseMessage.from(filteredData));
@@ -60,7 +61,8 @@ const PokemonSearchController = {
                     return {
                         id: pokemonDetails.data.id,
                         name: pokemonDetails.data.name,
-                        types: pokemonDetails.data.types.map(typeInfo => typeInfo.type.name)
+                        types: pokemonDetails.data.types.map(typeInfo => typeInfo.type.name),
+                        image: pokemonDetails.data.sprites.front_default, //ADDED
                     };
                 })
             );
@@ -100,7 +102,8 @@ const PokemonSearchController = {
                     return {
                         id: pokemonDetails.data.id,
                         name: pokemonDetails.data.name,
-                        types: pokemonDetails.data.types.map(typeInfo => typeInfo.type.name)
+                        types: pokemonDetails.data.types.map(typeInfo => typeInfo.type.name),
+                        image: pokemonDetails.data.sprites.front_default, //ADDED
                     };
                 })
             );
