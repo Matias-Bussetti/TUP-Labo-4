@@ -2,9 +2,9 @@ const express = require("express");
 
 const router = express.Router();
 
-const CharactersMarvel = require("./../controllers/CharactersMarvelController");
+const CharactersMarvel = require("../controllers/CharactersMarvelController");
 
-router.get("/all", CharactersMarvel.getCharacters); // Ruta para obtener todos los personajes, el limite es de 100
+router.get("/all", CharactersMarvel.getAllCharacters); // Ruta para obtener todos los personajes, el limite es de 100
 router.get("/:id", CharactersMarvel.getCharacterById); // Ruta para obtener un personaje por su ID
 router.get("/", CharactersMarvel.getCharactersWithQuery); // Ruta para obtener personajes con query params
 
