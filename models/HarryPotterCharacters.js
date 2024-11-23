@@ -14,6 +14,8 @@ class HarryPotterCharacters {
         actor: character.actor,
         ancestry: character.ancestry,
         alternate_names: character.alternate_names,
+         // Asigno la URL de la imagen 
+        image: character.image 
       };
     });
   }
