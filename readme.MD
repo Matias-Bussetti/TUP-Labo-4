@@ -498,27 +498,28 @@
     - **offset (int)**: Número de personajes a omitir (por defecto es 0).
 
     **Respuesta**:
-    ```json
+   ```json
     {
     "status": 200,
-    "data": [
-        {
-            "id": 37,
-            "name": "vulpix",
-            "types": [
-                "fire"
-            ],
-            "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/37.png",
-            "stats": {
-                "hp": 38,
-                "attack": 41,
-                "defense": 40,
-                "specialAttack": 50,
-                "specialDefense": 65,
-                "speed": 65
-            }
+    "data": {
+        "id": 30,
+        "name": "nidorina",
+        "types": [
+            "poison"
+        ],
+        "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/30.png",
+        "stats": {
+            "hp": 70,
+            "attack": 62,
+            "defense": 67,
+            "specialAttack": 55,
+            "specialDefense": 55,
+            "speed": 56
         }
-   ```
+    },
+    "requestTime": 1732662331724
+}
+```
 
 ## API DE HARRY POTTER
 
