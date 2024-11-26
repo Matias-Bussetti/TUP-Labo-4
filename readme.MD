@@ -484,21 +484,18 @@
     "requestTime": 1732662331724
 }
 ```
-
 3. **Obtener pokemon con filtros. Query params**
   - **GET**: `/api/v1/pokemon/search?name=string&type=string&limit=int&offset=int`
   - **GET RENDER**: [https://tup-labo-4-grupo-15.onrender.com/api/v1/pokemon/search?name=string&type=string&limit=int&offset=int](https://tup-labo-4-grupo-15.onrender.com/api/v1/pokemon/search?name=string&type=string&limit=int&offset=int)
 
     **Descripción**: Retorna una lista de pokemon filtrados por los parámetros especificados.
-
     **Parámetros de consulta**:
     - **name (string)**: Filtra por el nombre del pokemon.
     - **type (string)**: Filtra por el tipo del pokemon.
     - **limit (int)**: Número de personajes a retornar (por defecto es ).
     - **offset (int)**: Número de personajes a omitir (por defecto es 0).
-
     **Respuesta**:
-   ```json
+    ```json
     {
     "status": 200,
     "data": {
