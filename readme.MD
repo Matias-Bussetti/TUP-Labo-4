@@ -482,7 +482,6 @@
         }
     },
     "requestTime": 1732662331724
-}
 ```
 3. **Obtener pokemon con filtros. Query params**
   - **GET**: `/api/v1/pokemon/search?name=string&type=string&limit=int&offset=int`
@@ -513,9 +512,8 @@
             "specialDefense": 55,
             "speed": 56
         }
-    },
+    }
     "requestTime": 1732662331724
-}
 ```
 
 ## API DE HARRY POTTER
