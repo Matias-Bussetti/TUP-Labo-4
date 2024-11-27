@@ -82,7 +82,7 @@ const PokemonSearchController = {
             const pokemonUrl = `${POKEAPI_URL}?limit=${limit}&offset=${offset}`;
             const pokemonResponse = await axios.get(pokemonUrl);
             const pokemonList = pokemonResponse.data.results;
-
+    
             const detailedPokemonList = await Promise.all(
                 pokemonList.map(async (pokemon) => {
                     const pokemonDetails = await axios.get(pokemon.url);
@@ -102,21 +102,23 @@ const PokemonSearchController = {
                     };
                 })
             );
-
+    
             let filteredData = detailedPokemonList;
-
+    
             if (name) {
-                filteredData = detailedPokemonList.filter(pokemon => pokemon.name.toLowerCase() === name.toLowerCase());
+                filteredData = detailedPokemonList.filter(pokemon =>
+                    pokemon.name.toLowerCase().includes(name.toLowerCase())
+                );
             }
-
+    
             if (type) {
                 const typeUrl = `${POKEAPI_URL_TYPE}${type}`;
                 const typeResponse = await axios.get(typeUrl);
                 const pokemonsOfType = typeResponse.data.pokemon.map(p => p.pokemon.name);
-
+    
                 filteredData = filteredData.filter(pokemon => pokemonsOfType.includes(pokemon.name));
             }
-
+    
             response.json(ResponseMessage.from(filteredData));
         } catch (error) {
             if (error.response && error.response.status === 404) {
@@ -126,6 +128,7 @@ const PokemonSearchController = {
             }
         }
     },
+    
 };
 
 module.exports = PokemonSearchController;
