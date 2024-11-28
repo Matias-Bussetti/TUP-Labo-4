@@ -41,7 +41,7 @@ const PokemonSearchController = {
 
     getPokemonSearchAll: async (request, response) => {
         try {
-            const { limit = 0, offset = 0 } = request.query;
+            const { limit = 50, offset = 0 } = request.query;
             const pokemonUrl = `${POKEAPI_URL}?limit=${limit}&offset=${offset}`;
             const pokemonResponse = await axios.get(pokemonUrl);
             const pokemonList = pokemonResponse.data.results;
