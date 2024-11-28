@@ -14,5 +14,8 @@ router.get("/search", PokemonSearch.getPokemonByQuery);
 // Obtener un Pokémon por ID
 router.get("/:id", PokemonSearch.getPokemonSearchID);
 
+// Obtener un Pokémon por nombre
+router.get("/name/:name", PokemonSearch.getPokemonSearchName);
+
 
 module.exports = router;
