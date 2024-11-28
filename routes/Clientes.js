@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getClientes, getClientesId, getClientesByGenero } = require('./../controllers/Clientes');
+const { getClientes, getClientesId, getClientesByGenero, getClientesByName } = require('./../controllers/Clientes');
 
 const rutas = Router();
 
@@ -12,5 +12,7 @@ rutas.get('/buscar', getClientesId);
 // http://localhost:3000/api/v1/clientes/genero?genero=female
 rutas.get('/genero', getClientesByGenero);
 
-module.exports = rutas;
+// http://localhost:3000/api/v1/clientes/nombre?nombre=juan
+rutas.get('/nombre',  getClientesByName);
 
+module.exports = rutas;
