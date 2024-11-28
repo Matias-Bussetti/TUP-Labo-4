@@ -19,7 +19,9 @@ router.use("/api/v1/marvel/chars", CharactersMarvel);
 //Rutas Diego
 router.use("/api/v1/pokemon", PokemonSearch);
 //Rutas Eugenia
-router.use("/api/v1/personajes", LaPiedraFilosofal);
+router.use("/api/v1/personajes", LaPiedraFilosofal); // Paginación y filtros
+router.use("/api/v1/todoslospersonajes", LaPiedraFilosofal); // Sin límite, todos los personajes
+
 //Rutas Matias
 router.use("/api/v1/patients", PatientsRoutes);
 

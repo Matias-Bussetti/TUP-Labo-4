@@ -7,36 +7,43 @@ const HarryPotterCharacters = require('../models/HarryPotterCharacters');
 const axios = require('axios');
 const { request, response } = require('express');
 
-// Controlador para obtener todos los personajes de Harry Potter
 const getAllCharacters = (req = request, res = response) => {
-  const { page = 1, limit = 50, house, gender, name, actor, ancestry, alternate_names } = req.query; // Desestructuro los query params
-  const offset = (page - 1) * limit; 
-  
+  let { page = 1, limit = 50, house, gender, name, actor, ancestry, alternate_names } = req.query;
+
+  if (!name || req.baseUrl.includes('todoslospersonajes')) {
+    limit = null; // Devuelve todos los personajes
+  }
+
+  const offset = limit ? (page - 1) * limit : 0; 
+
   HarryPotterCharacters.all()
     .then((characters) => {
-      HarryPotterCharacters.filterByQuery({ 
+      // Filtrar solo si se proporciona un nombre u otro filtro
+      HarryPotterCharacters.filterByQuery({
         characters,
-        name, 
-        gender, 
-        house, 
-        actor, 
-        ancestry, 
+        name,
+        gender,
+        house,
+        actor,
+        ancestry,
         alternate_names,
-        
-    }).then((filteredData) => {
-        // Aplicar paginación
-        const paginatedData = filteredData.slice(offset, offset + limit);
-
-        // Usamos ResponseMessage para la respuesta exitosa
-        res.status(200).json(ResponseMessage.from(paginatedData, 200));
-      });
+      })
+        .then((filteredData) => {
+          // Si hay límite, aplico la paginación, si no, devuelvo todos los filtrados
+          const result = limit ? filteredData.slice(offset, offset + limit) : filteredData;
+          res.status(200).json(ResponseMessage.from(result, 200));
+        })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).json(ErrorMessage.from(error, 500));
+        });
     })
     .catch((error) => {
       console.error(error);
-      // Usamos ErrorMessage para manejar los errores
       res.status(500).json(ErrorMessage.from(error, 500));
     });
 };
+
 
 // Controlador para obtener un personaje por ID de personaje
 const getCharacterById = (req = request, res = response) => {
@@ -58,8 +65,39 @@ const getCharacterById = (req = request, res = response) => {
           res.status(500).json(ErrorMessage.from(error, 500));
       });
 };
+// Nuevo controlador para obtener todos los personajes sin límite
+const getAllCharactersNoLimit = (req = request, res = response) => {
+  const { house, gender, name, actor, ancestry, alternate_names } = req.query; // Desestructurar los filtros si los hay
+
+  HarryPotterCharacters.all()
+    .then((characters) => {
+      HarryPotterCharacters.filterByQuery({
+        characters,
+        name,
+        gender,
+        house,
+        actor,
+        ancestry,
+        alternate_names,
+      })
+        .then((filteredData) => {
+          // Devuelve todos los personajes sin aplicar paginación
+          res.status(200).json(ResponseMessage.from(filteredData, 200));
+        })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).json(ErrorMessage.from(error, 500));
+        });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json(ErrorMessage.from(error, 500));
+    });
+};
 
 module.exports = {
-    getAllCharacters,
-    getCharacterById
+  getAllCharacters,
+  getCharacterById,
+  getAllCharactersNoLimit, // Exportamos el nuevo método
 };
+
