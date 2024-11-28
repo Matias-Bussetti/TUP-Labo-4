@@ -128,6 +128,37 @@ const PokemonSearchController = {
             }
         }
     },
+
+    getPokemonSearchName: async (request, response) => {
+        try {
+            const pokemonName = request.params.name;
+            const pokemonUrl = `${POKEAPI_URL}${pokemonName}`;
+            const pokemonData = await axios.get(pokemonUrl);
+
+            const filteredData = {
+                id: pokemonData.data.id,
+                name: pokemonData.data.name,
+                types: pokemonData.data.types.map(typeInfo => typeInfo.type.name),
+                image: pokemonData.data.sprites.front_default,
+                stats: {
+                    hp: pokemonData.data.stats[0].base_stat,
+                    attack: pokemonData.data.stats[1].base_stat,
+                    defense: pokemonData.data.stats[2].base_stat,
+                    specialAttack: pokemonData.data.stats[3].base_stat,
+                    specialDefense: pokemonData.data.stats[4].base_stat,
+                    speed: pokemonData.data.stats[5].base_stat,
+                },
+            };
+
+            response.json(ResponseMessage.from(filteredData));
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                response.status(404).json(CustomStatusMessage.from(null, 404, "Pokemon no encontrado"));
+            } else {
+                response.status(500).json(ErrorMessage.from(error));
+            }
+        }
+    },
     
 };
 
