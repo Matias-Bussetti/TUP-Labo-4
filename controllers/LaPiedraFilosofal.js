@@ -10,12 +10,11 @@ const { request, response } = require('express');
 const getAllCharacters = (req = request, res = response) => {
   let { page = 1, limit = 50, house, gender, name, actor, ancestry, alternate_names } = req.query;
 
-  // Si no hay búsqueda por nombre y estamos en la ruta que devuelve todos los personajes, limit es null
   if (!name || req.baseUrl.includes('todoslospersonajes')) {
     limit = null; // Devuelve todos los personajes
   }
 
-  const offset = limit ? (page - 1) * limit : 0; // Calculamos el offset solo si hay paginación
+  const offset = limit ? (page - 1) * limit : 0; 
 
   HarryPotterCharacters.all()
     .then((characters) => {
@@ -30,7 +29,7 @@ const getAllCharacters = (req = request, res = response) => {
         alternate_names,
       })
         .then((filteredData) => {
-          // Si hay límite, aplicamos la paginación, si no, devolvemos todos los filtrados
+          // Si hay límite, aplico la paginación, si no, devuelvo todos los filtrados
           const result = limit ? filteredData.slice(offset, offset + limit) : filteredData;
           res.status(200).json(ResponseMessage.from(result, 200));
         })
