@@ -37,7 +37,11 @@ const PatientsController = {
     try {
       let patients = await Patients.all();
 
-      if (request.query.age == undefined && request.query.gender == undefined) {
+      if (
+        request.query.age == undefined &&
+        request.query.gender == undefined &&
+        request.query.name == undefined
+      ) {
         response
           .status(400)
           .json(
@@ -45,7 +49,18 @@ const PatientsController = {
           );
         return;
       }
-
+      const filterByName = (patient) => {
+        if (request.query.name && request.query.name != "") {
+          const inPatientFirstName = patient.name.first
+            .toLowerCase()
+            .includes(request.query.name.toLowerCase());
+          const inPatientLastName = patient.name.last
+            .toLowerCase()
+            .includes(request.query.name.toLowerCase());
+          return inPatientFirstName || inPatientLastName;
+        }
+        return true;
+      };
       const filterByAge = (patient) => {
         if (request.query.age) return patient.dob.age == request.query.age;
         return true;
@@ -58,8 +73,9 @@ const PatientsController = {
       response.json(
         ResponseMessage.from(
           patients
-            .filter((p) => filterByAge(p))
-            .filter((p) => filterByGender(p))
+            .filter(filterByAge)
+            .filter(filterByGender)
+            .filter(filterByName)
         )
       );
     } catch (error) {
