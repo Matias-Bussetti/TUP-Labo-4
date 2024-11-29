@@ -6,6 +6,7 @@ const CustomStatusMessage = require('../models/CustomStatusMessage');
 
 const URL = process.env.URL_API_CLIENTES;
 
+
 // Función para obtener todos los clientes
 const getClientes = (req = request, res = response) => {
   axios.get(URL)
@@ -55,7 +56,8 @@ const getClientesByGenero = (req = request, res = response) => {
     .then((apiResponse) => {
       const { data = [] } = apiResponse;
 
-      const filteredData = data.filter(cliente => cliente.Genero.toLowerCase() === genero.toLowerCase());
+      const filteredData = data.filter(cliente => 
+        cliente.Genero.toLowerCase() === genero.toLowerCase());
 
       if (filteredData.length === 0) {
         return res.status(404).json(CustomStatusMessage.from(null, 404, 'No se encontraron clientes con el género especificado'));
@@ -69,8 +71,41 @@ const getClientesByGenero = (req = request, res = response) => {
     });
 };
 
+// Función para obtener clientes por nombre (coincidencias parciales)
+const getClientesByName = (req = request, res = response) => {
+  const { nombre } = req.query;
+
+  if (!nombre) {
+    return res.status(400).json(CustomStatusMessage.from(null, 400, 'El parámetro nombre es obligatorio'));
+  }
+
+  axios.get(URL)
+    .then((apiResponse) => {
+      const { data = [] } = apiResponse;
+
+      // Filtrar por coincidencia parcial (ignorando mayúsculas/minúsculas)
+      const filteredData = data.filter(cliente => 
+        cliente.nombre.toLowerCase().includes(nombre.toLowerCase())
+      );
+
+      if (filteredData.length === 0) {
+        return res.status(404).json(CustomStatusMessage.from(null, 404, 'No se encontraron clientes con el nombre especificado'));
+      }
+
+      res.status(200).json(ResponseMessage.from(filteredData, 200));
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(400).json(ErrorMessage.from(error, 400));
+    });
+
+
+};
+
+
 module.exports = {
   getClientes,
   getClientesId,
   getClientesByGenero,
+  getClientesByName
 };
